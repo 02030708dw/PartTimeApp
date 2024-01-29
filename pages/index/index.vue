@@ -1,31 +1,34 @@
 <template>
 	<view class="container_box">
-		<!-- 导航栏 -->
-		<uni-nav-bar :border="false" :title="$t('index.top')" color="#fff" background-color="#0134e1">
-			<template #right>
-				<!--      <div @click="lanControl" class="lan">{{$t('index.top')}} <uni-icons type="bottom" color="#fff"/></div>-->
-				<div class="icons">
-					<uni-icons color="#fff" type="headphones" />
-					<uni-icons color="#fff" type="chat" />
-				</div>
-			</template>
-		</uni-nav-bar>
+		<view class="NavBar_box">
+			<!-- 导航栏 -->
+			<uni-nav-bar :border="false" :title="$t('index.top')" color="#fff" background-color="#0134e1">
+				<template #right>
+					<!--      <div @click="lanControl" class="lan">{{$t('index.top')}} <uni-icons type="bottom" color="#fff"/></div>-->
+					<div class="icons">
+						<uni-icons color="#fff" type="headphones" />
+						<uni-icons color="#fff" type="chat" />
+					</div>
+				</template>
+			</uni-nav-bar>
+		</view>
+
 		<!-- 列表 -->
 		<view class="list_box">
 			<!-- 选项 -->
-			<view class="item_box" v-for="i in 10" :key="i">
+			<view class="item_box" v-for="(item,index) in ListData" :key="index">
 				<!-- top -->
 				<view class="item_top_box">
 					<!-- left -->
 					<view class="left_box">
-						图片
+						<image src="../../static/image/index/Facebook_f_logo_(2021).svg" mode=""></image>
 					</view>
 					<!-- right -->
 					<view class="right_box">
 						<view class="right_top_box">
 							<!-- 标题 -->
 							<view class="title_box">
-								标题******************
+								{{item.title[2]}}
 							</view>
 							<!-- 图标 -->
 							<view class="right_ico_box">
@@ -35,7 +38,7 @@
 						<view class="right_bottom_box">
 							<!-- 价格 -->
 							<view class="price_box">
-								$100.00
+								${{item.amount}}
 							</view>
 							<!-- 按钮 -->
 							<view class="btn_box">
@@ -45,32 +48,103 @@
 					</view>
 				</view>
 				<view class="item_bottom_box">
-					<uni-collapse :show-animation="true" >
-						<uni-collapse-item  :title-border="none" :border="false">
+					<uni-collapse :show-animation="true">
+						<uni-collapse-item  :border="false">
 							<template v-slot:title>
-								说明******************
+								说明{{item.rule[2]}}
 							</template>
 							<view class="content">
-								<text class="text">123</text>
+								<p><text class="text">中文:{{item.rule[0]}}</text></p>
+								<p><text class="text">英文:{{item.rule[1]}}</text></p>
+								<p><text class="text">泰文:{{item.rule[2]}}</text></p>
 							</view>
 						</uni-collapse-item>
 					</uni-collapse>
 				</view>
 			</view>
+		
+		
+			<uni-load-more :showIcon="true" :status="status"></uni-load-more>
+		
 		</view>
 	</view>
 </template>
 
 <script setup>
+	import { https } from '../../utils/https.js'
 	import UniNavBar from "../../uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
 	import UniIcons from "../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue";
+	import { ref,onMounted,reactive } from 'vue'
+	var ListData = ref([])
+	// 总条数
+	const total = ref()
+	// 页码
+	const pageNo = ref(1)
+	// 请求数据
+	const GetData = () => {
+		https('/materialTask','get',{pageNo:pageNo.value,pageSize:10}).then(res=>{
+			console.log(res.data.resultSet)
+			// 总条数
+			total.value = res.data.resultSet.total
+			ListData.value = res.data.resultSet.data
+			status.value = 'more'
+			console.log(ListData)
+		}).catch(err => {
+			console.log(err)
+		})
+	}
+	// 请求初始化数据
+	onMounted(() => {
+		GetData()
+	})
+	import { onReachBottom } from '@dcloudio/uni-app'
+	
+	const status = ref('loading')
+	
+	// 触底刷新
+	onReachBottom(() => {
+		status.value = 'loading'
+		if(ListData.value.length >= total.value){
+			status.value = 'no-more'
+			return
+		}else{
+			pageNo.value ++
+			https('/materialTask','get',{pageNo:pageNo.value,pageSize:10}).then(res=>{
+				for(let i = 0 ; i < res.data.resultSet.data.length ; i++){
+					ListData.value.push(res.data.resultSet.data[i])
+				}
+				if(ListData.value.length >= total.value){
+					status.value = 'no-more'
+					
+				}else{
+					status.value = 'more'
+				}
+			}).catch(err => {
+				console.log(err)
+				
+			})
+		}
+	})
+	
+	
+	
 </script>
 
 <style lang="scss" scoped>
 	.container_box {
+		.NavBar_box {
+			width: 100vw;
+			position: fixed;
+			top: 0rpx;
+			left: 0rpx;
+			z-index: 9999;
+		}
+
 		min-height: 100vh;
 		background-color: #F5F8FF;
+		padding-top: 88rpx;
 		padding-bottom: 40rpx;
+
 		.icons {
 			display: flex;
 			width: 100%;
@@ -106,7 +180,10 @@
 					.left_box {
 						width: 108rpx;
 						height: 108rpx;
-						border: 2rpx solid red;
+						image{
+							width: 108rpx;
+							height: 108rpx;
+						}
 					}
 
 					.right_box {
@@ -168,16 +245,18 @@
 
 				.item_bottom_box {
 					margin-top: 32rpx;
+
 					::v-deep(.uni-collapse-item) {
 						width: 622rpx;
-						
+
 					}
 
-					
+
 				}
 
 			}
-			.item_box:nth-child(n+2){
+
+			.item_box:nth-child(n+2) {
 				margin-top: 20rpx;
 			}
 		}

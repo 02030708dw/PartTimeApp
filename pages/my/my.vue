@@ -1,5 +1,5 @@
 <template>
-	<uni-nav-bar :border="false" :title="$t('my.my')" color="#fff" background-color="#0134e1">
+	<view class="NavBar_box"><uni-nav-bar :border="false" :title="$t('my.my')" color="#fff" background-color="#0134e1">
 		<template #right>
 			<!--      <div @click="lanControl" class="lan">{{$t('index.top')}} <uni-icons type="bottom" color="#fff"/></div>-->
 			<div class="icons">
@@ -7,7 +7,8 @@
 				<uni-icons color="#fff" type="chat" />
 			</div>
 		</template>
-	</uni-nav-bar>
+	</uni-nav-bar></view>
+	
 	<view class="conent_box">
 		
 		<view class="hander_box">
@@ -40,7 +41,6 @@
 				兑换提醒
 			</view>
 		</view>
-		
 	</view>
 
 </template>
@@ -59,7 +59,15 @@
 
 
 <style scoped lang="scss">
+	.NavBar_box{
+		width: 100vw;
+		position: fixed;
+		top: 0rpx;
+		left: 0rpx;
+		z-index: 9999;
+	}
 	.conent_box {
+		padding-top: 78rpx;
 		width: 100vw;
 		min-height: 100vh;
 		display: flex;
@@ -107,7 +115,6 @@
 				line-height: 24rpx;
 			}
 		}
-	
 		.income_box{
 			width: 686rpx;
 			height: 196rpx;

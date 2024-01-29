@@ -12,7 +12,8 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "%index.title%",
-				"navigationStyle":"custom"
+				"navigationStyle":"custom",
+				"onReachBottomDistance": 50
 			}
 		}, {
 			"path": "pages/my/my",
