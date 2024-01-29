@@ -14,7 +14,7 @@
 		<view class="hander_box">
 			<!-- 头像 -->
 			<view class="Avatar_box">
-				<image src="" mode=""></image>
+				<image src="../../static/image/my/01.webp" mode=""></image>
 			</view>
 			<!-- 昵称 -->
 			<view class="Name_box">
