@@ -10,8 +10,10 @@
 		</uni-nav-bar></view>
 
 	<view class="conent_box">
-
 		<view class="hander_box">
+			<view class="out" @click="onLogout">
+				<image src="../../static/image/index/退出.png" mode=""></image>
+			</view>
 			<!-- 头像 -->
 			<view class="Avatar_box">
 				<image src="../../static/image/my/01.webp" mode=""></image>
@@ -38,7 +40,7 @@
 				</view>
 			</view>
 			<!-- right -->
-			<view class="right_box">
+			<view class="right_box" @click="toBack">
 				兑换提醒
 			</view>
 		</view>
@@ -67,6 +69,20 @@
 			console.log(err)
 		})
 	}
+	//登出
+	const onLogout = () => {
+		// 清除本地存储的用户信息，例如token
+		uni.removeStorageSync('token');
+		uni.redirectTo({
+			url: '/pages/login/login'
+		});
+	}
+	
+	const toBack = () =>{
+		uni.navigateTo({
+			url:'/pages/bankForm/bankForm'
+		})
+	}
 </script>
 
 
@@ -88,7 +104,8 @@
 		align-items: center;
 		flex-direction: column;
 		background-color: #F5F8FF;
-
+		
+		
 		.hander_box {
 			width: 750rpx;
 			height: 496rpx;
@@ -99,6 +116,19 @@
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
+			
+			//退出
+			.out{
+				width: 32rpx;
+				height: 32rpx;
+				position: absolute;
+				right: 50rpx;
+				top: 100rpx;
+				image{
+					width: 100%;
+					height: 100%;
+				}
+			}
 
 			// 头像
 			.Avatar_box {

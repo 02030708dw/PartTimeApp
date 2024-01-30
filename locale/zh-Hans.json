@@ -16,5 +16,7 @@
 	"login.tit": "登录",
 	"login.hint": "请输入账号",
 	"login.hint2": "请输入密码",
-	"login.btn": "登录"
+	"login.btn": "登录",
+	
+	"back.submit":"银行卡提交"
 }

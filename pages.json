@@ -1,18 +1,17 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "%login.login%",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "%index.title%",
-				"navigationStyle":"custom",
+				"navigationStyle": "custom",
 				"onReachBottomDistance": 50
 			}
 		}, {
@@ -20,7 +19,14 @@
 			"style": {
 				"navigationBarTitleText": "%index.schema%",
 				"enablePullDownRefresh": false,
-				"navigationStyle":"custom"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/bankForm/bankForm",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		}
 	],
@@ -31,11 +37,15 @@
 		"backgroundColor": "#F8F8F8",
 		"list": [{
 				"pagePath": "pages/index/index",
-				"text": "%index.home%"
+				"text": "%index.home%",
+				"iconPath": "static/image/index/发布任务@2x.png",
+				"selectedIconPath": "static/image/index/发布任务.png"
 			},
-			 {
+			{
 				"pagePath": "pages/my/my",
-				"text": "%index.my%"
+				"text": "%index.my%",
+				"iconPath": "static/image/index/我的.png",
+				"selectedIconPath": "static/image/index/我的@2x.png"
 			}
 		]
 	},

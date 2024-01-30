@@ -64,6 +64,7 @@
 		return
 
 	}
+
 	const lanControl = () => languageRef.value.open()
 	const langs = [{
 			text: 'english',

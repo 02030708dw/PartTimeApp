@@ -72,8 +72,8 @@
 
 <script setup>
 	import { https } from '../../utils/https.js'
-	import UniNavBar from "../../uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
-	import UniIcons from "../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue";
+	// import UniNavBar from "../../uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
+	// import UniIcons from "../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue";
 	import { ref,onMounted,reactive } from 'vue'
 	var ListData = ref([])
 	// 总条数
