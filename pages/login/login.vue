@@ -1,5 +1,8 @@
 <template>
-	<uni-nav-bar :border="false" color="#fff" background-color="#0134e1">
+	<!-- 背景图片 -->
+	<view class="background_image_box"></view>
+	
+	<uni-nav-bar :border="false" color="#fff" background-color="#0134e190">
 		<template #right>
 			<div @click="lanControl" class="lan">{{$t('login.top')}} <uni-icons type="bottom" color="#fff" /></div>
 		</template>
@@ -11,7 +14,7 @@
 			</view>
 		</uni-popup>
 	</uni-nav-bar>
-
+	
 	<view class="login">
 		<view class="form">
 			<text class="text_4">登陆</text>
@@ -51,7 +54,7 @@
 	} from 'vue'
 	import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue";
 	const languageRef = ref(null)
-
+	
 	const account = ref("")
 	const password = ref("")
 	const passwordtype = ref(true)
@@ -139,7 +142,14 @@
 	.lan {
 		width: 200rpx !important;
 	}
-
+	// 背景图片
+	.background_image_box{
+		width: 100vw;
+		height: 100vh;
+		position: fixed;
+		left: 0rpx;
+		background-image: url('../../static/image/login/login_image.png');
+		background-size: cover;}
 	@mixin flex {
 		/* #ifndef APP-NVUE */
 		display: flex;
