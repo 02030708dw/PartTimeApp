@@ -38,14 +38,14 @@
 		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "%index.home%",
-				"iconPath": "static/image/index/发布任务@2x.png",
-				"selectedIconPath": "static/image/index/发布任务.png"
+				"iconPath": "static/image/index/Tasksx.png",
+				"selectedIconPath": "static/image/index/Tasks.png"
 			},
 			{
 				"pagePath": "pages/my/my",
 				"text": "%index.my%",
-				"iconPath": "static/image/index/我的.png",
-				"selectedIconPath": "static/image/index/我的@2x.png"
+				"iconPath": "static/image/index/Mex.png",
+				"selectedIconPath": "static/image/index/Me.png"
 			}
 		]
 	},

@@ -12,7 +12,7 @@
 	<view class="conent_box">
 		<view class="hander_box">
 			<view class="out" @click="onLogout">
-				<image src="../../static/image/index/退出.png" mode=""></image>
+				<image src="../../static/image/index/out.png" mode=""></image>
 			</view>
 			<!-- 头像 -->
 			<view class="Avatar_box">

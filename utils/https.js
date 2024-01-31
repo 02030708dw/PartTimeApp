@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.124.3:7110'
+const baseUrl = 'https://ww1.44dog.cc'
 
 export function https(url, method, data = null) {
 	// 设置请求头
