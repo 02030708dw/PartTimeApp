@@ -51,7 +51,7 @@
 					<uni-collapse :show-animation="true">
 						<uni-collapse-item  :border="false">
 							<template v-slot:title>
-								说明{{item.rule[2]}}
+								<div class="item_bottom_title">说明{{item.rule[2]}}</div>
 							</template>
 							<view class="content">
 								<p><text class="text">中文:{{item.rule[0]}}</text></p>
@@ -196,11 +196,16 @@
 							// 标题
 							.title_box {
 								width: 362rpx;
-								height: 32rpx;
+								max-height: 62rpx;
 								font-size: 32rpx;
 								font-weight: 600;
 								color: #333330;
 								line-height: 32rpx;
+								
+								display: -webkit-box;
+								-webkit-line-clamp: 2;
+								-webkit-box-orient: vertical;
+								 overflow: hidden;
 							}
 
 							.right_ico_box {
@@ -245,7 +250,12 @@
 
 				.item_bottom_box {
 					margin-top: 32rpx;
-
+					.item_bottom_title{
+						display: -webkit-box;
+						-webkit-line-clamp: 1;
+						-webkit-box-orient: vertical;
+						 overflow: hidden;
+					}
 					::v-deep(.uni-collapse-item) {
 						width: 622rpx;
 

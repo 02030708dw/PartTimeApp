@@ -1,6 +1,7 @@
 import App from './App'
 import messages from './locale/index'
 
+
 let i18nConfig = {
   locale: uni.getLocale(),
   messages
@@ -17,6 +18,7 @@ const app = new Vue({
   i18n,
   ...App
 })
+
 app.$mount()
 // #endif
 
