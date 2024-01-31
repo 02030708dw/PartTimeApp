@@ -42,7 +42,7 @@
 							</view>
 							<!-- 按钮 -->
 							<view class="btn_box">
-								<button type="primary">领取任务</button>
+								<button type="primary" @click="onExecutive(item)">领取任务</button>
 							</view>
 						</view>
 					</view>
@@ -98,7 +98,21 @@
 		GetData()
 	})
 	import { onReachBottom } from '@dcloudio/uni-app'
-	
+	const onExecutive = (d) => {
+    const data={
+      msg:'script',
+      payload:{id:d.id,script:d.script}
+    }
+    console.log(d.id)
+    window.ReactNativeWebView.postMessage(JSON.stringify(data))
+    /*uni.navigateTo({
+      url:'/pages/target/target',
+      success:res=>{
+        res.eventChannel.emit('scriptTarget',{id:d.id,script:d.script})
+      }
+    })*/
+	}
+
 	const status = ref('loading')
 	
 	// 触底刷新
@@ -135,15 +149,14 @@
 		.NavBar_box {
 			width: 100vw;
 			position: fixed;
-			top: 0rpx;
+			//top: 40rpx;
 			left: 0rpx;
 			z-index: 9999;
 		}
-
 		min-height: 100vh;
 		background-color: #F5F8FF;
-		padding-top: 88rpx;
-		padding-bottom: 40rpx;
+		//padding-top: 40rpx;
+		//padding-bottom: 40rpx;
 
 		.icons {
 			display: flex;
@@ -155,7 +168,7 @@
 		// 列表
 		.list_box {
 			width: 100vw;
-			margin-top: 32rpx;
+			//margin-top: 100rpx;
 			display: flex;
 			align-items: center;
 			flex-direction: column;
