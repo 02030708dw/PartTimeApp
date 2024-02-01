@@ -104,6 +104,7 @@
       payload:{id:d.id,script:d.script}
     }
     console.log(d.id)
+    if (window.ReactNativeWebView)
     window.ReactNativeWebView.postMessage(JSON.stringify(data))
     /*uni.navigateTo({
       url:'/pages/target/target',
@@ -146,6 +147,7 @@
 
 <style lang="scss" scoped>
 	.container_box {
+    //position: relative;
 		.NavBar_box {
 			width: 100vw;
 			position: fixed;
@@ -167,6 +169,8 @@
 
 		// 列表
 		.list_box {
+      //transform: translateY(100rpx);
+      //margin-bottom: 100rpx;
 			width: 100vw;
 			//margin-top: 100rpx;
 			display: flex;
@@ -174,6 +178,7 @@
 			flex-direction: column;
 
 			.item_box {
+        margin-top: 100rpx;
 				width: 686rpx;
 				padding: 32rpx 0rpx;
 				background: #FFFFFF;

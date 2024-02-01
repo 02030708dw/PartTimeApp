@@ -2,7 +2,7 @@
 	<!-- 背景图片 -->
 	<view class="background_image_box"></view>
 	
-	<uni-nav-bar :border="false" color="#fff" background-color="#0134e190">
+	<uni-nav-bar :border="false" color="#fff" background-color="#0134e1">
 		<template #right>
 			<div @click="lanControl" class="lan">{{$t('login.top')}} <uni-icons type="bottom" color="#fff" /></div>
 		</template>
