@@ -37,5 +37,15 @@
 	"login.hint2": "Please enter password",
 	"login.btn": "Login",
 
-	"back.submit": "BackSubmit"
+	"back.backSubmit": "BackSubmit",
+	"back.account":"Account",
+	"back.card":"Card number",
+	"back.back":"Back",
+	"back.amount":"Amount of withdrawal",
+	"back.submit":"Submit",
+	"back.accountTips":"Please enter your account name",
+	"back.cardTips":"Please enter your bank card number",
+	"back.backTips":"Please enter bank",
+	"back.amountTips":"Please enter the withdrawal amount"
+	
 }
