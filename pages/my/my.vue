@@ -11,6 +11,7 @@
 
 	<view class="conent_box">
 		<view class="hander_box">
+			<!-- 退出 -->
 			<view class="out" @click="onLogout">
 				<image src="../../static/image/index/out.png" mode=""></image>
 			</view>
@@ -36,7 +37,7 @@
 				</view>
 				<view class="Number_box">
 					<span v-if="UserInfo">{{UserInfo.money}}</span>
-					
+
 				</view>
 			</view>
 			<!-- right -->
@@ -46,6 +47,11 @@
 		</view>
 	</view>
 
+	<!-- 退出提示 -->
+	<uni-popup ref="alertDialog" type="dialog">
+		<uni-popup-dialog :type="msgType" cancelText="NO" confirmText="YES" title="Notifications"
+			content="Are you sure you want out?" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
+	</uni-popup>
 </template>
 <script setup>
 	import {
@@ -67,20 +73,34 @@
 			console.log(err)
 		})
 	}
+
+	const toBack = () => {
+		uni.navigateTo({
+			url: '/pages/bankForm/bankForm'
+		})
+	}
+
+	const alertDialog = ref(null);
+	const msgType = ref(''); // 根据需要设置消息类型
 	//登出
 	const onLogout = () => {
-		// 清除本地存储的用户信息，例如token
+		alertDialog.value.open(); // 显示确认对话框
+	};
+
+	const dialogConfirm = () => {
 		uni.removeStorageSync('token');
 		uni.redirectTo({
 			url: '/pages/login/login'
 		});
-	}
-	
-	const toBack = () =>{
-		uni.navigateTo({
-			url:'/pages/bankForm/bankForm'
-		})
-	}
+		// 关闭对话框
+		alertDialog.value.close();
+	};
+
+	// 对话框关闭操作
+	const dialogClose = () => {
+		// 可以在这里处理对话框关闭后的逻辑
+		console.log('Dialog closed');
+	};
 </script>
 
 
@@ -102,8 +122,8 @@
 		align-items: center;
 		flex-direction: column;
 		background-color: #F5F8FF;
-		
-		
+
+
 		.hander_box {
 			width: 750rpx;
 			height: 496rpx;
@@ -114,15 +134,16 @@
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-			
+
 			//退出
-			.out{
+			.out {
 				width: 32rpx;
 				height: 32rpx;
 				position: absolute;
 				right: 50rpx;
 				top: 100rpx;
-				image{
+
+				image {
 					width: 100%;
 					height: 100%;
 				}
