@@ -1,6 +1,5 @@
-<!-- 本示例未包含完整css，获取外链css请参考上文，在hello uni-app项目中查看 -->
 <template>
-	<view class="NavBar_box"><uni-nav-bar :border="false" :title="$t('back.submit')" color="#fff"
+	<view class="NavBar_box"><uni-nav-bar :border="false" :title="$t('back.backSubmit')" color="#fff"
 			background-color="#0134e1">
 			<template #left>
 				<div class="icons" @click="fallback">
@@ -18,20 +17,20 @@
 	<!-- 银行卡表单 -->
 	<view class="example">
 		<uni-forms ref="baseForm" label-position="top" :modelValue="baseFormData" :rules="rules">
-			<uni-forms-item label="户名" required name="bankAccount">
-				<uni-easyinput v-model="baseFormData.bankAccount" placeholder="请输入户名" />
+			<uni-forms-item :label-width='200' :label="$t('back.account')" required name="bankAccount">
+				<uni-easyinput v-model="baseFormData.bankAccount" :placeholder="$t('back.accountTips')" />
 			</uni-forms-item>
-			<uni-forms-item label="银行名" required name="bankName">
-				<uni-easyinput v-model="baseFormData.bankName" placeholder="请输入银行名" />
+			<uni-forms-item :label-width='200' :label="$t('back.back')" required name="bankName">
+				<uni-easyinput v-model="baseFormData.bankName" :placeholder="$t('back.backTips')" />
 			</uni-forms-item>
-			<uni-forms-item label="银行卡号" required name="bankNumber">
-				<uni-easyinput v-model="baseFormData.bankNumber" placeholder="请输入银行卡号" />
+			<uni-forms-item :label-width='200' :label="$t('back.card')" required name="bankNumber">
+				<uni-easyinput v-model="baseFormData.bankNumber" :placeholder="$t('back.cardTips')" />
 			</uni-forms-item>
-			<uni-forms-item label="提现金额" required name="money">
-				<uni-easyinput v-model="baseFormData.money" placeholder="请输入提现金额" />
+			<uni-forms-item :label-width='200' :label="$t('back.amount')" required name="money">
+				<uni-easyinput v-model="baseFormData.money" :placeholder="$t('back.amountTips')" />
 			</uni-forms-item>
 		</uni-forms>
-		<button type="primary" @click="onSubmit">提交</button>
+		<button type="primary" @click="onSubmit">{{$t('back.submit')}}</button>
 	</view>
 </template>
 
@@ -56,31 +55,31 @@
 		bankAccount: {
 			rules: [{
 				required: true,
-				errorMessage: '户名不能为空',
+				errorMessage: 'The username cannot be empty',
 			}]
 		},
 		bankName: {
 			rules: [{
 				required: true,
-				errorMessage: '银行名不能为空',
+				errorMessage: 'The bank cannot be empty',
 			}]
 		},
 		bankNumber: {
 			rules: [{
 				required: true,
-				errorMessage: '银行卡号不能为空',
+				errorMessage: 'The bank card number cannot be empty',
 			}, {
 				pattern: /^\d+$/,
-				errorMessage: '银行卡号必须是数字',
+				errorMessage: 'The bank card number must be numeric',
 			}]
 		},
 		money: {
 			rules: [{
 				required: true,
-				errorMessage: '提现金额不能为空',
+				errorMessage: 'The withdrawal amount cannot be empty',
 			}, {
 				pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
-				errorMessage: '提现金额必须是有效的数字',
+				errorMessage: 'The withdrawal amount must be a valid figure',
 			}]
 		},
 	})

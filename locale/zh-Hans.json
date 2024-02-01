@@ -9,8 +9,11 @@
 	"index.my": "我的",
 	"index.home": "任务",
 	"index.top": "任务",
+	"index.btn":"领取任务",
 
 	"my.my": "我的",
+	"my.revenue":"金币收益",
+	"my.exchange":"兑换提醒",
 
 	"login.top": "语系",
 	"login.tit": "登录",
@@ -18,5 +21,14 @@
 	"login.hint2": "请输入密码",
 	"login.btn": "登录",
 	
-	"back.submit":"银行卡提交"
+	"back.backSubmit":"银行卡提交",
+	"back.account":"户名",
+	"back.card":"银行卡号",
+	"back.back":"银行",
+	"back.amount":"提现金额",
+	"back.submit":"提交",
+	"back.accountTips":"请输入户名",
+	"back.cardTips":"请输入银行卡号",
+	"back.backTips":"请输入银行",
+	"back.amountTips":"请输入提现金额"
 }

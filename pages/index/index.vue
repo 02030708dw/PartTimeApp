@@ -42,7 +42,7 @@
 							</view>
 							<!-- 按钮 -->
 							<view class="btn_box">
-								<button type="primary" @click="onExecutive(item)">领取任务</button>
+								<button type="primary" @click="onExecutive(item)">{{$t('index.btn')}}</button>
 							</view>
 						</view>
 					</view>
@@ -172,7 +172,6 @@
       //transform: translateY(100rpx);
       //margin-bottom: 100rpx;
 			width: 100vw;
-			//margin-top: 100rpx;
 			display: flex;
 			align-items: center;
 			flex-direction: column;
@@ -180,6 +179,7 @@
 			.item_box {
         margin-top: 100rpx;
 				width: 686rpx;
+				margin-top: 100rpx;
 				padding: 32rpx 0rpx;
 				background: #FFFFFF;
 				border-radius: 24rpx;
@@ -251,12 +251,10 @@
 							}
 
 							.btn_box {
-								width: 168rpx;
 								height: 56rpx;
 								box-shadow: 0rpx 8rpx 20rpx 0rpx rgba(2, 86, 255, 0.29);
 
 								button {
-									width: 168rpx;
 									height: 56rpx;
 									font-size: 24rpx;
 								}
