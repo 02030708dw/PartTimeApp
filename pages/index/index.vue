@@ -4,17 +4,18 @@
 			<!-- 导航栏 -->
 			<uni-nav-bar :border="false" :title="$t('index.top')" color="#fff" background-color="#0134e1">
 				<template #right>
-					<!--      <div @click="lanControl" class="lan">{{$t('index.top')}} <uni-icons type="bottom" color="#fff"/></div>-->
-					<div class="icons">
+					<view class="icons">
 						<uni-icons color="#fff" type="headphones" />
 						<uni-icons color="#fff" type="chat" />
-					</div>
+					</view>
 				</template>
 			</uni-nav-bar>
 		</view>
 
+		<view class="loader" v-if="isLoading"></view>
+
 		<!-- 列表 -->
-		<view class="list_box">
+		<view v-else class="list_box">
 			<!-- 选项 -->
 			<view class="item_box" v-for="(item,index) in ListData" :key="index">
 				<!-- top -->
@@ -32,7 +33,7 @@
 							</view>
 							<!-- 图标 -->
 							<view class="right_ico_box">
-								<image src="../../static/image/index/index_ico.png" mode=""></image>
+								<image v-if="item.hot" src="../../static/image/index/index_ico.png" mode=""></image>
 							</view>
 						</view>
 						<view class="right_bottom_box">
@@ -49,9 +50,9 @@
 				</view>
 				<view class="item_bottom_box">
 					<uni-collapse :show-animation="true">
-						<uni-collapse-item  :border="false">
+						<uni-collapse-item :border="false">
 							<template v-slot:title>
-								<div class="item_bottom_title">说明{{item.rule[2]}}</div>
+								<view class="item_bottom_title">说明{{item.rule[2]}}</view>
 							</template>
 							<view class="content">
 								<p><text class="text">中文:{{item.rule[0]}}</text></p>
@@ -62,27 +63,37 @@
 					</uni-collapse>
 				</view>
 			</view>
-		
-		
+
+
 			<uni-load-more :showIcon="true" :status="status"></uni-load-more>
-		
+
 		</view>
 	</view>
 </template>
 
 <script setup>
-	import { https } from '../../utils/https.js'
-	// import UniNavBar from "../../uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
-	// import UniIcons from "../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue";
-	import { ref,onMounted,reactive } from 'vue'
+	import {
+		https
+	} from '../../utils/https.js'
+	import {
+		ref,
+		onMounted,
+		reactive
+	} from 'vue'
 	var ListData = ref([])
 	// 总条数
 	const total = ref()
 	// 页码
 	const pageNo = ref(1)
+	const isLoading = ref(false)
 	// 请求数据
 	const GetData = () => {
-		https('/materialTask','get',{pageNo:pageNo.value,pageSize:10}).then(res=>{
+		isLoading.value = true
+		https('/materialTask', 'get', {
+			pageNo: pageNo.value,
+			pageSize: 10
+		}).then(res => {
+			isLoading.value = false
 			console.log(res.data.resultSet)
 			// 总条数
 			total.value = res.data.resultSet.total
@@ -97,52 +108,56 @@
 	onMounted(() => {
 		GetData()
 	})
-	import { onReachBottom } from '@dcloudio/uni-app'
+	import {
+		onReachBottom
+	} from '@dcloudio/uni-app'
 	const onExecutive = (d) => {
-    const data={
-      msg:'script',
-      payload:{id:d.id,script:d.script}
-    }
-    console.log(d.id)
-    if (window.ReactNativeWebView)
-    window.ReactNativeWebView.postMessage(JSON.stringify(data))
-    /*uni.navigateTo({
-      url:'/pages/target/target',
-      success:res=>{
-        res.eventChannel.emit('scriptTarget',{id:d.id,script:d.script})
-      }
-    })*/
+		const data = {
+			msg: 'script',
+			payload: {
+				id: d.id,
+				script: d.script
+			}
+		}
+		console.log(d.id)
+		window.ReactNativeWebView.postMessage(JSON.stringify(data))
+		/*uni.navigateTo({
+		  url:'/pages/target/target',
+		  success:res=>{
+		    res.eventChannel.emit('scriptTarget',{id:d.id,script:d.script})
+		  }
+		})*/
 	}
 
-	const status = ref('loading')
-	
+	const status = ref('more')
+
 	// 触底刷新
 	onReachBottom(() => {
 		status.value = 'loading'
-		if(ListData.value.length >= total.value){
+		if (ListData.value.length >= total.value) {
 			status.value = 'no-more'
 			return
-		}else{
-			pageNo.value ++
-			https('/materialTask','get',{pageNo:pageNo.value,pageSize:10}).then(res=>{
-				for(let i = 0 ; i < res.data.resultSet.data.length ; i++){
+		} else {
+			pageNo.value++
+			https('/materialTask', 'get', {
+				pageNo: pageNo.value,
+				pageSize: 10
+			}).then(res => {
+				for (let i = 0; i < res.data.resultSet.data.length; i++) {
 					ListData.value.push(res.data.resultSet.data[i])
 				}
-				if(ListData.value.length >= total.value){
+				if (ListData.value.length >= total.value) {
 					status.value = 'no-more'
-					
-				}else{
+
+				} else {
 					status.value = 'more'
 				}
 			}).catch(err => {
 				console.log(err)
-				
+
 			})
 		}
 	})
-	
-	
-	
 </script>
 
 <style lang="scss" scoped>
@@ -155,6 +170,7 @@
 			left: 0rpx;
 			z-index: 9999;
 		}
+
 		min-height: 100vh;
 		background-color: #F5F8FF;
 		//padding-top: 40rpx;
@@ -198,7 +214,8 @@
 					.left_box {
 						width: 108rpx;
 						height: 108rpx;
-						image{
+
+						image {
 							width: 108rpx;
 							height: 108rpx;
 						}
@@ -219,11 +236,11 @@
 								font-weight: 600;
 								color: #333330;
 								line-height: 32rpx;
-								
+
 								display: -webkit-box;
 								-webkit-line-clamp: 2;
 								-webkit-box-orient: vertical;
-								 overflow: hidden;
+								overflow: hidden;
 							}
 
 							.right_ico_box {
@@ -266,12 +283,14 @@
 
 				.item_bottom_box {
 					margin-top: 32rpx;
-					.item_bottom_title{
+
+					.item_bottom_title {
 						display: -webkit-box;
 						-webkit-line-clamp: 1;
 						-webkit-box-orient: vertical;
-						 overflow: hidden;
+						overflow: hidden;
 					}
+
 					::v-deep(.uni-collapse-item) {
 						width: 622rpx;
 
@@ -286,5 +305,55 @@
 				margin-top: 20rpx;
 			}
 		}
+
+		//加载
+		.loader {
+			width: 48px;
+			height: 48px;
+			display: block;
+			position: fixed;
+			top: 45%;
+			left: 45%;
+			color: #0256ff;
+			box-sizing: border-box;
+			animation: rotation 1s linear infinite;
+		}
+
+		.loader::after,
+		.loader::before {
+			content: '';
+			box-sizing: border-box;
+			position: absolute;
+			width: 24px;
+			height: 24px;
+			top: 50%;
+			left: 50%;
+			transform: scale(0.5) translate(0, 0);
+			background-color: #0256ff;
+			border-radius: 50%;
+			animation: animloader 1s infinite ease-in-out;
+		}
+
+		.loader::before {
+			background-color: #FF3D00;
+			transform: scale(0.5) translate(-48px, -48px);
+		}
+
+		@keyframes rotation {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes animloader {
+			50% {
+				transform: scale(1) translate(-50%, -50%);
+			}
+		}
+
 	}
 </style>
