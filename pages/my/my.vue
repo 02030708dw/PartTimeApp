@@ -49,15 +49,13 @@
 </template>
 <script setup>
 	import {
-		ref,
-		onMounted
-	} from 'vue';
-	import {
 		https
 	} from '../../utils/https.js'
 	import UniNavBar from "../../uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
 	import UniIcons from "../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue";
-	onMounted(() => {
+  import {ref} from 'vue'
+  import {onShow} from '@dcloudio/uni-app'
+  onShow(() => {
 		GetUserInfo()
 	})
 	const UserInfo = ref()

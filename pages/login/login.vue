@@ -45,8 +45,9 @@
 		watch
 	} from 'vue'
 	import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue";
+  import {onLoad} from '@dcloudio/uni-app'
+  onLoad(()=> !!uni.getStorageSync('token')&&uni.switchTab({url:'/pages/index/index'}))
 	const languageRef = ref(null)
-
 	const account = ref("")
 	const password = ref("")
 	const passwordtype = ref(false)
@@ -61,39 +62,34 @@
 			uni.showLoading({
 				title: 'Loading'
 			});
-
 			https('/Common/memberLogin', 'post', {
 				password: password.value,
 				account: account.value
 			}).then(res => {
-				isLoading.value = false
-				uni.hideLoading(); // 关闭加载框
-				
 				// 登录成功
-				if (res.data.resultSet.token) {
+				// if (res.data.resultSet.token) {
 					uni.showToast({
 						title: 'Success!',
 						icon: 'success',
 						duration: 1000
 					});
-
-					setTimeout(() => {
+					// setTimeout(() => {
 						uni.setStorageSync('token', res.data.resultSet.token); // 存储token
 						uni.switchTab({
 							url: '/pages/index/index' // 跳转页面
 						});
-					}, 1000);
-				}
+        isLoading.value = false
+					// }, 1000);
+				// }
 			}).catch(err => {
-				isLoading.value = false
-				uni.hideLoading(); // 关闭加载框
 				uni.showToast({
 					title: 'Error!',
 					icon: 'none',
 					duration: 2000
 				});
+        isLoading.value = false
 				console.log(err);
-			});
+			})
 		} else {
 			uni.showToast({
 				title: 'Please enter complete information',
