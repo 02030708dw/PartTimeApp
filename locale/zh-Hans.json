@@ -9,8 +9,11 @@
 	"index.my": "我的",
 	"index.home": "任务",
 	"index.top": "任务",
+	"index.btn":"领取任务",
 
 	"my.my": "我的",
+	"my.revenue":"金币收益",
+	"my.exchange":"兑换提醒",
 
 	"login.top": "语系",
 	"login.tit": "登录",

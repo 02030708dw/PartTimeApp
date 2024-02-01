@@ -1,7 +1,7 @@
 <template>
 	<!-- 背景图片 -->
 	<view class="background_image_box"></view>
-	
+
 	<uni-nav-bar :border="false" color="#fff" background-color="#0134e190">
 		<template #right>
 			<div @click="lanControl" class="lan">{{$t('login.top')}} <uni-icons type="bottom" color="#fff" /></div>
@@ -14,32 +14,23 @@
 			</view>
 		</uni-popup>
 	</uni-nav-bar>
-	
+
 	<view class="login">
 		<view class="form">
-			<text class="text_4">登陆</text>
+			<text class="text_4">{{$t('login.tit')}}</text>
 			<view class="text-wrapper_2">
-				<input class="text_5" v-model="account" placeholder="请输入账号">
+				<input class="text_5" v-model="account" :placeholder="$t('login.hint')">
 			</view>
-			<view class="text-wrapper_3" v-if="passwordtype">
-				<input class="text_6" v-model="password" placeholder="请输入密码">
-				<view class="ico_box">
-					<image src="../../static/image/login/ok.png" mode="" @tap="passwordtype = false"></image>
+			<view class="text-wrapper_3">
+				<input :type="passwordtype ? 'text' : 'password'" class="text_6" v-model="password" :placeholder="$t('login.hint2')">
+				<view class="ico_box" @tap="togglePasswordVisibility">
+					<image :src="passwordtype ? '../../static/image/login/ok.png' : '../../static/image/login/no.png'"
+						mode=""></image>
 				</view>
 			</view>
-			<view class="text-wrapper_3" v-else>
-				<input class="text_6" v-model="password" placeholder="请输入密码" type="password">
-				<view class="ico_box">
-					<image src="../../static/image/login/no.png" mode="" @tap="passwordtype = true"></image>
-				</view>
+			<view class="text-wrapper_4" @click="onLogin">
+				<view class="text_7" >{{$t('login.btn')}}</view>
 			</view>
-			<view class="text-wrapper_4">
-				<view class="text_7" @click="onLogin">登陆</view>
-			</view>
-			
-		</view>
-		<view class="title_box" v-if="Show" :class="ClassShow"> 
-			{{TextShow}}
 		</view>
 	</view>
 </template>
@@ -50,60 +41,69 @@
 	import UniNavBar from "../../uni_modules/uni-nav-bar/components/uni-nav-bar/uni-nav-bar.vue";
 	import UniIcons from "../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue";
 	import {
-		ref,watch
+		ref,
+		watch
 	} from 'vue'
 	import UniPopup from "../../uni_modules/uni-popup/components/uni-popup/uni-popup.vue";
 	const languageRef = ref(null)
-	
+
 	const account = ref("")
 	const password = ref("")
-	const passwordtype = ref(true)
-	const Show = ref(false)
-	const TextShow = ref('')
-	const ClassShow = ref('title_warn')
+	const passwordtype = ref(false)
+	const isLoading = ref(false) // 控制加载状态
 	// 登录
 	const onLogin = () => {
-		// 判断是否输入完全信息
-		if(account.value && password.value){
+		if (isLoading.value) {
+			return; // 如果已经在加载中，不再处理点击
+		}
+		if (account.value && password.value) {
+			isLoading.value = true  // 开始加载，禁用登录按钮
+			uni.showLoading({
+				title: 'Loading'
+			});
+
 			https('/Common/memberLogin', 'post', {
 				password: password.value,
 				account: account.value
 			}).then(res => {
-				TextShow.value = '登录成功!'
-				ClassShow.value = 'title_success'
-				Show.value = true
+				isLoading.value = false
+				uni.hideLoading(); // 关闭加载框
 				
 				// 登录成功
 				if (res.data.resultSet.token) {
+					uni.showToast({
+						title: 'Success!',
+						icon: 'success',
+						duration: 1000
+					});
+
 					setTimeout(() => {
-						// 存储token
-						uni.setStorageSync('token', res.data.resultSet.token)
-						// 跳转页面
+						uni.setStorageSync('token', res.data.resultSet.token); // 存储token
 						uni.switchTab({
-							url: '/pages/index/index'
-						})
-					},2000)
-					
+							url: '/pages/index/index' // 跳转页面
+						});
+					}, 1000);
 				}
 			}).catch(err => {
-				TextShow.value = '登录失败!'
-				ClassShow.value = 'title_warn'
-				Show.value = true
-				console.log(err)
-			})
-		}else{
-			TextShow.value = '请输入完整信息'
-			ClassShow.value = 'title_warn'
-			Show.value = true
+				isLoading.value = false
+				uni.hideLoading(); // 关闭加载框
+				uni.showToast({
+					title: 'Error!',
+					icon: 'none',
+					duration: 2000
+				});
+				console.log(err);
+			});
+		} else {
+			uni.showToast({
+				title: 'Please enter complete information',
+				icon: 'none',
+				duration: 2000
+			});
 		}
-	}
-	watch(Show, (newValue, oldValue) => {
-	    if(Show){
-			setTimeout(() => {
-				Show.value = false
-			},3000)
-		}
-	})
+	};
+
+
 	const lanControl = () => languageRef.value.open()
 	const langs = [{
 			text: 'english',
@@ -114,6 +114,9 @@
 			code: 'zh-Hans'
 		},
 	]
+	const togglePasswordVisibility = () => {
+		passwordtype.value = !passwordtype.value
+	}
 </script>
 <script>
 	export default {
@@ -142,21 +145,24 @@
 	.lan {
 		width: 200rpx !important;
 	}
+
 	// 背景图片
-	.background_image_box{
+	.background_image_box {
 		width: 100vw;
 		height: 100vh;
 		position: fixed;
 		left: 0rpx;
 		background-image: url('../../static/image/login/login_image.png');
-		background-size: cover;}
+		background-size: cover;
+	}
+
 	@mixin flex {
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
 		flex-direction: row;
 	}
-	
+
 	.login {
 		height: calc(95vh);
 		width: 100%;
@@ -164,25 +170,29 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		.title_box{
+
+		.title_box {
 			padding: 20rpx;
 			position: fixed;
 			line-height: 40rpx;
 			height: 40rpx;
-			
+
 			border-radius: 18rpx;
 			font-size: 26rpx;
 			top: 20rpx;
-			
+
 		}
-		.title_warn{
+
+		.title_warn {
 			background-color: #faecd8;
 			color: #e6a240;
 		}
-		.title_success{
+
+		.title_success {
 			background-color: #e1f3d8;
 			color: #7fd85e;
 		}
+
 		.form {
 			transform: translateY(-50%);
 
@@ -201,7 +211,7 @@
 			.text-wrapper_2 {
 				background-color: rgba(255, 255, 255, 0.1);
 				margin: 114rpx 54rpx 0 38rpx;
-				padding: 36rpx 362rpx 36rpx 48rpx;
+				padding: 36rpx 30rpx ;
 			}
 
 			.text_5 {
@@ -217,7 +227,7 @@
 			.text-wrapper_3 {
 				background-color: rgba(255, 255, 255, 0.1);
 				margin: 48rpx 54rpx 0 38rpx;
-				padding: 36rpx 362rpx 36rpx 48rpx;
+				padding: 36rpx 30rpx ;
 				position: relative;
 
 				.ico_box {

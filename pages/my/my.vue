@@ -32,7 +32,7 @@
 			<!-- left -->
 			<view class="left_box">
 				<view class="title_box">
-					金币收益
+					{{$t('my.revenue')}}
 				</view>
 				<view class="Number_box">
 					<span v-if="UserInfo">{{UserInfo.money}}</span>
@@ -41,7 +41,7 @@
 			</view>
 			<!-- right -->
 			<view class="right_box" @click="toBack">
-				兑换提醒
+				{{$t('my.exchange')}}
 			</view>
 		</view>
 	</view>
