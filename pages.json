@@ -12,7 +12,8 @@
 			"style": {
 				"navigationBarTitleText": "%index.title%",
 				"navigationStyle": "custom",
-				"onReachBottomDistance": 50
+				"onReachBottomDistance": 50,
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/my/my",

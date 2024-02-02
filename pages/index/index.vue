@@ -80,6 +80,7 @@
 		onMounted,
 		reactive
 	} from 'vue'
+	import { onPullDownRefresh } from '@dcloudio/uni-app'
 	var ListData = ref([])
 	// 总条数
 	const total = ref()
@@ -158,11 +159,20 @@
 			})
 		}
 	})
+
+
+	//下拉刷新
+	onPullDownRefresh(() => {
+	  GetData()
+	  // 数据请求完成后，停止下拉刷新动作
+	  uni.stopPullDownRefresh();
+	});
 </script>
 
 <style lang="scss" scoped>
 	.container_box {
-    //position: relative;
+
+		//position: relative;
 		.NavBar_box {
 			width: 100vw;
 			position: fixed;
@@ -185,15 +195,15 @@
 
 		// 列表
 		.list_box {
-      //transform: translateY(100rpx);
-      //margin-bottom: 100rpx;
+			//transform: translateY(100rpx);
+			//margin-bottom: 100rpx;
 			width: 100vw;
 			display: flex;
 			align-items: center;
 			flex-direction: column;
 
 			.item_box {
-        margin-top: 100rpx;
+				margin-top: 100rpx;
 				width: 686rpx;
 				margin-top: 100rpx;
 				padding: 32rpx 0rpx;
