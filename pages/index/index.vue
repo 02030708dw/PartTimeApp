@@ -89,7 +89,7 @@
 	// 请求数据
 	const GetData = () => {
 		isLoading.value = true
-		https('/materialTask', 'get', {
+		https('/materialTask/status', 'get', {
 			pageNo: pageNo.value,
 			pageSize: 10
 		}).then(res => {
@@ -139,7 +139,7 @@
 			return
 		} else {
 			pageNo.value++
-			https('/materialTask', 'get', {
+			https('/materialTask/status', 'get', {
 				pageNo: pageNo.value,
 				pageSize: 10
 			}).then(res => {
