@@ -22,6 +22,11 @@ export function https(url, method, data = null) {
 				if (res.data.resCode==='000000') return resolve(res)
 				else if (res.data.resCode==='000104'){
 					uni.removeStorageSync('token')
+					uni.showToast({
+						title: 'login jwt is expired,please login again',
+						icon: 'error',
+						duration: 2000
+					});
 					uni.navigateTo({url:'/'})
 				}
 				reject(res)
